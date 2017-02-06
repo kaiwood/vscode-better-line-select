@@ -17,6 +17,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         editor.selection = new vscode.Selection(startOfSelection, endOfSelection);
+        revealCursorDownwards(editor);
     });
 
     let upward = vscode.commands.registerCommand('better-line-select.upward', () => {
@@ -42,6 +43,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         editor.selection = new vscode.Selection(startOfSelection, endOfSelection);
+        revealCursorUpwards(editor);
     });
 
     context.subscriptions.push(downward);
@@ -58,4 +60,16 @@ function hasSelection(editor) {
     } else {
         return true;
     }
+}
+
+function revealCursorDownwards(editor) {
+    let position = editor.selection.active;
+    let newPosition = position.with(editor.selection.end.line, editor.selection.end.character);
+    editor.revealRange(new vscode.Range(editor.selection.end, newPosition));
+}
+
+function revealCursorUpwards(editor) {
+    let position = editor.selection.active;
+    let newPosition = position.with(editor.selection.start.line, editor.selection.start.character);
+    editor.revealRange(new vscode.Range(editor.selection.start, newPosition));
 }
