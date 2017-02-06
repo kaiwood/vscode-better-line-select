@@ -4,6 +4,12 @@
     "description": "Line selection on steroids",
     "version": "0.0.1",
     "publisher": "kaiwood",
+    "license": "MIT",
+    "bugs": "https://github.com/kaiwood/vscode-better-line-select/issues",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/kaiwood/vscode-better-line-select"
+    },
     "engines": {
         "vscode": "^1.5.0"
     },
@@ -11,14 +17,32 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.sayHello"
+        "onCommand:better-line-select.downward",
+        "onCommand:better-line-select.upward"
     ],
     "main": "./out/src/extension",
     "contributes": {
         "commands": [{
-            "command": "extension.sayHello",
-            "title": "Hello World"
-        }]
+            "command": "better-line-select.downward",
+            "title": "Select Line (downward)"
+        }, {
+            "command": "better-line-select.upward",
+            "title": "Select Line (upward)"
+        }],
+        "keybindings": [
+            {
+                "command": "better-line-select.downward",
+                "key": "ctrl+l",
+                "mac": "cmd+l",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "better-line-select.upward",
+                "key": "ctrl+shift+l",
+                "mac": "cmd+shift+l",
+                "when": "editorTextFocus"
+            }
+        ]
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",
