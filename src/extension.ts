@@ -7,21 +7,28 @@ export function activate(context: vscode.ExtensionContext) {
     () => {
       let editor = vscode.window.activeTextEditor;
 
-      let startOfSelection;
-      let endOfSelection;
+      let newSelections = [];
 
-      startOfSelection = new vscode.Position(editor.selection.start.line, 0);
-      if (hasSelection(editor)) {
-        endOfSelection = new vscode.Position(editor.selection.end.line + 1, 0);
-      } else {
-        endOfSelection = new vscode.Position(
-          editor.selection.start.line + 1,
-          0
+      for (let selection of editor.selections) {
+        let startOfSelection;
+        let endOfSelection;
+
+        startOfSelection = new vscode.Position(selection.start.line, 0);
+
+        if (hasSelection(selection)) {
+          endOfSelection = new vscode.Position(selection.end.line + 1, 0);
+        } else {
+          endOfSelection = new vscode.Position(selection.start.line + 1, 0);
+        }
+
+        newSelections.push(
+          new vscode.Selection(startOfSelection, endOfSelection)
         );
       }
 
-      editor.selection = new vscode.Selection(startOfSelection, endOfSelection);
-      revealCursorDownwards(editor);
+      editor.selections = newSelections;
+
+      revealCursorDownwards(editor); // TODO: Check wich cursor should be revealed
     }
   );
 
@@ -38,24 +45,30 @@ export function activate(context: vscode.ExtensionContext) {
         return;
       }
 
-      let startOfSelection;
-      let endOfSelection;
+      let newSelections = [];
 
-      if (hasSelection(editor)) {
-        // Those 2 guys needs to be swapped each keypress to keep the blinking cursor at the top.
-        endOfSelection = new vscode.Position(
-          editor.selection.start.line - 1,
-          0
+      for (let selection of editor.selections) {
+        let startOfSelection;
+        let endOfSelection;
+
+        if (hasSelection(selection)) {
+          // Those 2 guys needs to be swapped each keypress to keep the blinking cursor at the top.
+          endOfSelection = new vscode.Position(selection.start.line - 1, 0);
+          startOfSelection = new vscode.Position(selection.end.line, 0);
+        } else {
+          let currentLine = selection.start.line;
+
+          startOfSelection = new vscode.Position(currentLine + 1, 0);
+          endOfSelection = new vscode.Position(currentLine, 0);
+        }
+
+        newSelections.push(
+          new vscode.Selection(startOfSelection, endOfSelection)
         );
-        startOfSelection = new vscode.Position(editor.selection.end.line, 0);
-      } else {
-        let currentLine = editor.selection.start.line;
-
-        startOfSelection = new vscode.Position(currentLine + 1, 0);
-        endOfSelection = new vscode.Position(currentLine, 0);
       }
 
-      editor.selection = new vscode.Selection(startOfSelection, endOfSelection);
+      editor.selections = newSelections;
+
       revealCursorUpwards(editor);
     }
   );
@@ -66,10 +79,10 @@ export function activate(context: vscode.ExtensionContext) {
 
 export function deactivate() {}
 
-function hasSelection(editor) {
+function hasSelection(selection) {
   if (
-    editor.selection.start.character === editor.selection.end.character &&
-    editor.selection.start.line === editor.selection.end.line
+    selection.start.character === selection.end.character &&
+    selection.start.line === selection.end.line
   ) {
     return false;
   } else {
