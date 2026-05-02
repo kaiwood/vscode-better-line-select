@@ -1,5 +1,9 @@
 # Change log
 
+## 2.0.2
+
+Remove the README icon from the marketplace page.
+
 ## 2.0.0
 
 Modernization release. No intentional feature changes.

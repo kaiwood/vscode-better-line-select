@@ -1,9 +1,5 @@
 # Better Line Select
 
-<p align="left">
-  <img src="assets/icon.png" width="128" height="128" alt="Better Line Select icon">
-</p>
-
 Better Line Select lets you expand a line selection in both directions.
 
 ## Commands
