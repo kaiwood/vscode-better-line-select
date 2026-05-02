@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Better Line Select icon">
+  <rect width="128" height="128" rx="24" fill="#1f2428"/>
+  <rect x="48" y="35" width="56" height="8" rx="4" fill="#ffffff"/>
+  <rect x="48" y="60" width="56" height="8" rx="4" fill="#ffffff"/>
+  <rect x="48" y="85" width="56" height="8" rx="4" fill="#ffffff"/>
+  <rect x="24" y="24" width="8" height="80" rx="4" fill="#4aa3ff"/>
+  <rect x="24" y="24" width="18" height="8" rx="4" fill="#4aa3ff"/>
+  <rect x="24" y="96" width="18" height="8" rx="4" fill="#4aa3ff"/>
+</svg>

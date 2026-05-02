@@ -4,6 +4,7 @@
   "description": "Line selection on steroids",
   "version": "1.1.1",
   "publisher": "kaiwood",
+  "icon": "assets/icon.png",
   "license": "MIT",
   "bugs": "https://github.com/kaiwood/vscode-better-line-select/issues",
   "repository": {
