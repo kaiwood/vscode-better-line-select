@@ -1,5 +1,11 @@
 # Change log
 
+## 2.0.0
+
+Modernization release. No intentional feature changes.
+
+Minimum supported VS Code version is now 1.74.0.
+
 ## 1.1.0
 
 Add support for multiple cursors
