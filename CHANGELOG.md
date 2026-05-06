@@ -1,5 +1,9 @@
 # Change log
 
+## 2.0.3
+
+Fix upwards selection.
+
 ## 2.0.2
 
 Remove the README icon from the marketplace page.

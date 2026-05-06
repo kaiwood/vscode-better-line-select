@@ -28,6 +28,15 @@ suite("Better Line Select", () => {
     assertSelections(editor, [selectionFrom(0, 0, 2, 0)]);
   });
 
+  test("downward command from the final line selects that line", async () => {
+    const editor = await openEditor("first\nsecond\nthird");
+    editor.selection = cursorAt(2, 3);
+
+    await vscode.commands.executeCommand(DOWNWARD_COMMAND);
+
+    assertSelections(editor, [selectionFrom(2, 0, 2, 5)]);
+  });
+
   test("upward command on an empty selection selects the current line upward with the cursor at the top", async () => {
     const editor = await openEditor("first\nsecond\nthird");
     editor.selection = cursorAt(1, 3);
@@ -35,6 +44,19 @@ suite("Better Line Select", () => {
     await vscode.commands.executeCommand(UPWARD_COMMAND);
 
     assertSelections(editor, [selectionFrom(2, 0, 1, 0)]);
+  });
+
+  test("upward command from the final line selects that line before expanding further", async () => {
+    const editor = await openEditor("first\nsecond\nthird");
+    editor.selection = cursorAt(2, 3);
+
+    await vscode.commands.executeCommand(UPWARD_COMMAND);
+
+    assertSelections(editor, [selectionFrom(2, 5, 2, 0)]);
+
+    await vscode.commands.executeCommand(UPWARD_COMMAND);
+
+    assertSelections(editor, [selectionFrom(2, 5, 1, 0)]);
   });
 
   test("switching directions keeps already selected text", async () => {
@@ -55,7 +77,7 @@ suite("Better Line Select", () => {
 
     assertSelections(editor, [
       selectionFrom(0, 0, 1, 0),
-      selectionFrom(2, 0, 3, 0)
+      selectionFrom(2, 0, 2, 5)
     ]);
   });
 

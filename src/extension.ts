@@ -17,9 +17,9 @@ export function activate(context: vscode.ExtensionContext): void {
         let endOfSelection: vscode.Position;
 
         if (hasSelection(selection)) {
-          endOfSelection = new vscode.Position(selection.end.line + 1, 0);
+          endOfSelection = getLineSelectionEnd(editor, selection.end.line);
         } else {
-          endOfSelection = new vscode.Position(selection.start.line + 1, 0);
+          endOfSelection = getLineSelectionEnd(editor, selection.start.line);
         }
 
         newSelections.push(
@@ -56,11 +56,11 @@ export function activate(context: vscode.ExtensionContext): void {
         if (hasSelection(selection)) {
           // These positions are swapped on each keypress to keep the blinking cursor at the top.
           endOfSelection = new vscode.Position(selection.start.line - 1, 0);
-          startOfSelection = new vscode.Position(selection.end.line, 0);
+          startOfSelection = selection.end;
         } else {
           const currentLine = selection.start.line;
 
-          startOfSelection = new vscode.Position(currentLine + 1, 0);
+          startOfSelection = getLineSelectionEnd(editor, currentLine);
           endOfSelection = new vscode.Position(currentLine, 0);
         }
 
@@ -83,6 +83,13 @@ export function deactivate(): void {}
 
 function hasSelection(selection: vscode.Selection): boolean {
   return !selection.isEmpty;
+}
+
+function getLineSelectionEnd(
+  editor: vscode.TextEditor,
+  line: number
+): vscode.Position {
+  return editor.document.lineAt(line).rangeIncludingLineBreak.end;
 }
 
 function revealCursorDownwards(editor: vscode.TextEditor): void {
